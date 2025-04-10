@@ -23,4 +23,9 @@ Linux.</string>
     <string name="question_unix">Unix является многопользовательской операционной системой.</string>
     <string name="question_bsd">Операционные системы семейства BSD открытые исходники.</string>
     <string name="question_mac">Mac OS X бесплатная операционная система.</string>
+    <string name="warning_text">Вы уверены, что хотите это
+сделать?</string>
+    <string name="show_answer_button">Показать ответ</string>
+    <string name="deceit_button">Обмануть !</string>
+    <string name="judgment_toast">Обманывать нельзя.</string>
 </resources>

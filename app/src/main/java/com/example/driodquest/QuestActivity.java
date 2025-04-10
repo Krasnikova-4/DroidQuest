@@ -1,5 +1,7 @@
 package com.example.driodquest;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +23,9 @@ public class QuestActivity extends AppCompatActivity {
     private Button mNextButton;
     private Button mBackButton;
     private TextView mQuestionTextView;
+    private Button mDeceitButton;
+    private static final int REQUEST_CODE_DECEIT = 0;
+    private boolean mIsDeceiter;
 
 
     private Question[] mQuestionBank = new Question[] {
@@ -44,10 +49,14 @@ public class QuestActivity extends AppCompatActivity {
         boolean answerIsTrue =
                 mQuestionBank[mCurrentIndex].isAnswerTrue();
         int messageResId = 0;
-        if (userPressedTrue == answerIsTrue) {
-            messageResId = R.string.correct_toast;
+        if (mIsDeceiter) {
+            messageResId = R.string.judgment_toast;
         } else {
-            messageResId = R.string.incorrect_toast;
+            if (userPressedTrue == answerIsTrue) {
+                messageResId = R.string.correct_toast;
+            } else {
+                messageResId = R.string.incorrect_toast;
+            }
         }
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
     }
@@ -88,10 +97,22 @@ public class QuestActivity extends AppCompatActivity {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            mDeceitButton = (Button)findViewById(R.id.deceit_button);
+            mDeceitButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    boolean answerIsTrue = mQuestionBank[mCurrentIndex]
+                            .isAnswerTrue();
+                    Intent i = DeceitActivity.newIntent(QuestActivity.this,
+                            answerIsTrue);
+                    startActivityForResult(i, REQUEST_CODE_DECEIT);
+                }
+            });
             return insets;
         });
             mQuestionTextView =
                     (TextView) findViewById(R.id.question_text_view);
+
 
 
 
@@ -122,6 +143,7 @@ public class QuestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mCurrentIndex = (mCurrentIndex - 1) % mQuestionBank.length;
+                mIsDeceiter = false;
                 updateQuestion();
             }
         });
@@ -131,6 +153,20 @@ public class QuestActivity extends AppCompatActivity {
         updateQuestion();
 
 
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        if (requestCode == REQUEST_CODE_DECEIT) {
+            if (data == null) {
+                return;
+            }
+
+            mIsDeceiter = DeceitActivity.wasAnswerShown(data);
+        }
     }
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
