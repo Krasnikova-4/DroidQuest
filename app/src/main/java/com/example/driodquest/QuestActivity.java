@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class QuestActivity extends AppCompatActivity {
     private static final String TAG = "QuestActivity";
+    private static final String KEY_INDEX = "index";
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mNextButton;
@@ -28,6 +29,11 @@ public class QuestActivity extends AppCompatActivity {
             new Question(R.string.question_service, false),
             new Question(R.string.question_res, true),
             new Question(R.string.question_manifest, true),
+            new Question(R.string.question_comp, true),
+            new Question(R.string.question_windows, true),
+            new Question(R.string.question_unix, true),
+            new Question(R.string.question_mac, false),
+            new Question(R.string.question_bsd, true),
     };
     private int mCurrentIndex = 0;
     private void updateQuestion() {
@@ -119,10 +125,17 @@ public class QuestActivity extends AppCompatActivity {
                 updateQuestion();
             }
         });
-
+        if (savedInstanceState != null) {
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+        }
         updateQuestion();
 
 
     }
-
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        Log.i(TAG, "onSaveInstanceState");
+        savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+    }
 }

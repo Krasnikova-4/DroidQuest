@@ -18,4 +18,9 @@ Linux.</string>
 файле XML.</string>
     <string name="question_manifest">AndroidManifest.xml предоставляет
 системе основную информацию о программе.</string>
+    <string name="question_comp">Операционная система управляет аппаратными ресурсами компьютера.</string>
+    <string name="question_windows">Windows поддерживает многозадачность.</string>
+    <string name="question_unix">Unix является многопользовательской операционной системой.</string>
+    <string name="question_bsd">Операционные системы семейства BSD открытые исходники.</string>
+    <string name="question_mac">Mac OS X бесплатная операционная система.</string>
 </resources>
