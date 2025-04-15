@@ -61,4 +61,10 @@ public class DeceitActivity extends AppCompatActivity {
         data.putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown);
         setResult(RESULT_OK, data);
     }
+    public void nazad(View view){
+        Button button = findViewById(R.id.back_button);
+        Intent intent = new Intent(DeceitActivity.this, QuestActivity.class);
+        startActivity(intent);
+
+    }
 }
